@@ -59,4 +59,10 @@ public class PedidoController {
         return ResponseEntity.ok(pedidoView);
     }
 
+    @PatchMapping(value = "/{id}/fechar-pedido")
+    public ResponseEntity<PedidoView> fecharPedido(@PathVariable int id) {
+        pedidoService.fecharPedido(id);
+        return ResponseEntity.ok().build();
+    }
+
 }

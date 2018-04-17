@@ -11,9 +11,11 @@ public class PedidoView {
 
     private int pedidoKey;
     private String observacao;
+    private String status;
     private Date dataCriacao;
     private int lojaKey;
     private Date dataFechamento;
+
     public int getPedidoKey() {
         return pedidoKey;
     }
@@ -45,12 +47,21 @@ public class PedidoView {
         this.dataFechamento = dataFechamento;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public PedidoView(Pedido pedido) {
         this.pedidoKey = pedido.getPedidoKey();
         this.observacao = pedido.getObservacao();
         this.dataCriacao = pedido.getDataCriacao();
         this.lojaKey = pedido.getLojaKey();
         this.dataFechamento = pedido.getDataFechamento();
+        this.status = pedido.getStatus();
     }
 
     public static List<PedidoView> toView(Iterable<Pedido> pedidos){

@@ -1,9 +1,7 @@
 package br.com.branquinho.dojorest.pedido.model;
 
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,8 +16,8 @@ public class Pedido {
     private Integer pedidoKey;
 
     private String observacao;
+    private String status;
 
-    @Setter(AccessLevel.NONE)
     @Column(updatable = false)
     private Date dataCriacao;
 
@@ -30,6 +28,7 @@ public class Pedido {
     @PrePersist
     public void onPrePersist() {
         this.dataCriacao = new Date();
+        this.setStatus("aberto");
     }
 
 }

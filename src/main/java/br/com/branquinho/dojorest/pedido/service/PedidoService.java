@@ -6,6 +6,9 @@ import br.com.branquinho.dojorest.pedido.repository.PedidoRepository;
 import br.com.branquinho.dojorest.pedido.web.form.PedidoForm;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.Optional;
+
 @Service
 public class PedidoService {
 
@@ -16,12 +19,16 @@ public class PedidoService {
     }
 
     public Pedido atualizarPedido(PedidoForm form, int id) {
-        boolean pedidoExiste = pedidoRepository.existsById(id);
-        if(!pedidoExiste) {
+        Optional<Pedido> pedidoOptional = pedidoRepository.findById(id);
+        if(!pedidoOptional.isPresent()) {
             throw new BusinessException("Pedido inexistente");
         }
+        Pedido pedidoDoBanco = pedidoOptional.get();
+
         Pedido pedido = form.toEntity();
         pedido.setPedidoKey(id);
+        pedido.setDataCriacao(pedidoDoBanco.getDataCriacao());
+        pedido.setStatus(pedidoDoBanco.getStatus());
         return pedidoRepository.save(pedido);
     }
 
@@ -39,5 +46,17 @@ public class PedidoService {
 
     public void deletar(int id) {
         pedidoRepository.deleteById(id);
+    }
+
+    public void fecharPedido(int id) {
+        Optional<Pedido> pedidoOptional = pedidoRepository.findById(id);
+        if(!pedidoOptional.isPresent()) {
+            throw new BusinessException("Pedido inexistente");
+        }
+
+        Pedido pedido = pedidoOptional.get();
+        pedido.setStatus("fechado");
+        pedido.setDataFechamento(new Date());
+        pedidoRepository.save(pedido);
     }
 }
