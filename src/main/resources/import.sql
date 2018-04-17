@@ -1,0 +1,2 @@
+insert into pedido (pedido_key, observacao, loja_key, data_criacao) values (1, 'Pedido de teste dojo', 4, current_date);
+insert into pedido (pedido_key, observacao, loja_key, data_criacao) values (2, 'Pedido de teste dojo 2', 3, current_date);
