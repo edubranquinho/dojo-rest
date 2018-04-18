@@ -4,6 +4,8 @@ import br.com.branquinho.dojorest.pedido.exceptions.BusinessException;
 import br.com.branquinho.dojorest.pedido.model.Pedido;
 import br.com.branquinho.dojorest.pedido.repository.PedidoRepository;
 import br.com.branquinho.dojorest.pedido.web.form.PedidoForm;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -32,8 +34,8 @@ public class PedidoService {
         return pedidoRepository.save(pedido);
     }
 
-    public Iterable<Pedido> listar() {
-        return pedidoRepository.findAll();
+    public Page<Pedido> listar(Pageable pageable) {
+        return pedidoRepository.findAll(pageable);
     }
 
     public Pedido obter(Integer id) {

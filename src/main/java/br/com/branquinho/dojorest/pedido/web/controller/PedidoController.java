@@ -7,12 +7,12 @@ import br.com.branquinho.dojorest.pedido.web.form.PedidoForm;
 import br.com.branquinho.dojorest.pedido.web.view.PedidoView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -22,8 +22,8 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @GetMapping
-    public List<PedidoView> listar(){
-        return PedidoView.toView(pedidoService.listar());
+    public Iterable<Pedido> listar(Pageable pageable){
+        return pedidoService.listar(pageable);
     }
 
     @GetMapping("/{id}")
