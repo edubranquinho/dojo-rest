@@ -4,9 +4,16 @@ import br.com.branquinho.dojorest.pedido.exceptions.BusinessException;
 import br.com.branquinho.dojorest.pedido.model.Pedido;
 import br.com.branquinho.dojorest.pedido.repository.PedidoRepository;
 import br.com.branquinho.dojorest.pedido.web.form.PedidoForm;
+import br.com.branquinho.dojorest.pedido.web.view.PedidoProjection;
+import br.com.branquinho.dojorest.pedido.web.view.PedidoView;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,8 +39,12 @@ public class PedidoService {
         return pedidoRepository.save(pedido);
     }
 
-    public Iterable<Pedido> listar() {
-        return pedidoRepository.findAll();
+    public Page<PedidoView> listar(Pageable page) {
+    	    Page<Pedido> paginaDoPedido = pedidoRepository.findAll(page);
+    	    List<Pedido> pedidos = paginaDoPedido.getContent();
+    	    List<PedidoView> pedidosView = PedidoView.toView(pedidos);
+    	    PageImpl<PedidoView> novaPagina = new PageImpl<>(pedidosView, page, paginaDoPedido.getTotalElements());
+    	    return novaPagina;
     }
 
     public Pedido obter(Integer id) {

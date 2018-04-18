@@ -4,9 +4,12 @@ import br.com.branquinho.dojorest.pedido.exceptions.BusinessException;
 import br.com.branquinho.dojorest.pedido.model.Pedido;
 import br.com.branquinho.dojorest.pedido.service.PedidoService;
 import br.com.branquinho.dojorest.pedido.web.form.PedidoForm;
+import br.com.branquinho.dojorest.pedido.web.view.PedidoProjection;
 import br.com.branquinho.dojorest.pedido.web.view.PedidoView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,10 +25,10 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @GetMapping
-    public List<PedidoView> listar(){
-        return PedidoView.toView(pedidoService.listar());
+    public Page<PedidoView> listar(Pageable page){
+    		return pedidoService.listar(page);
     }
-
+    
     @GetMapping("/{id}")
     public PedidoView obter(@PathVariable Integer id) {
         return new PedidoView(pedidoService.obter(id));

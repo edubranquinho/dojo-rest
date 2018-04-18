@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PedidoView {
+public class PedidoView implements PedidoProjection {
 
 
     private int pedidoKey;
